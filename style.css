@@ -1,252 +1,86 @@
+/*-----------------  GOOGLE FONTS  -----------------*/
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
+
+/*-----------------  VARIABLES  -----------------*/
+:root {
+    /* Colors */ 
+    --white_color : rgb(255, 255, 255);
+    --gold_color: rgb(255, 215, 0);
+    --green_color: rgb(45, 252, 26);
+    --body_background: linear-gradient(to right, #141e30, #243b55);
+    --spin_background: linear-gradient(to right, #fc4a1a, #f7b733);
+}
+/*-----------------  Base  -----------------*/
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'PT Serif', serif;
+}
 body {
-	font-family: Arial, sans-serif;
+  height: 100vh;
+  background: var(--body_background);
 }
-
-header {
-	text-align: center;
-	background-color: #e8e8e8;
-	padding: 20px;
+/*-----------------  Styling Start  -----------------*/
+h1 {
+  position: absolute;
+  font-size: 4rem;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--gold_color);
 }
-
-.wheel-container {
-	width: 400px;
-	height: 400px;
-	margin: 0 auto;
-	position: relative;
+.container {
+  width: 90%;
+  max-width: 34.37rem;
+  margin-top: 3rem;
+  max-height: 90vh;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  padding: 3rem; 
+  border-radius: 1rem;
 }
-
-.wheel {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	transform-style: preserve-3d;
-	animation: spin 5s linear infinite;
+.wheel_box {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
-
-.slice {
-	position: absolute;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 200px 100px 0;
-	border-color: #fff transparent transparent;
-	transform-origin: bottom;
+#spinWheel {
+  max-height: inherit;
+  width: inherit;
+  transform: rotate(270deg);
 }
-
-.slice1 {
-	transform: rotate(0deg);
-	background-color: #e84c3d;
+#spin_btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  height: 26%;
+  width: 26%;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 0;
+  background: var(--spin_background);
+  color: var(--white_color);
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  letter-spacing: 0.1rem;
+  font-weight: 600;
 }
-
-.slice2 {
-	transform: rotate(18deg);
-	background-color: #70c1b3;
+.fa-solid {
+  position: absolute;
+  top: -8%;
+  left: 43.7%;
+  font-size: 4rem;
+  color: var(--green_color);
+  transform: rotate(-225deg);
 }
-
-.slice3 {
-	transform: rotate(36deg);
-	background-color: #f7dc6f;
-}
-
-.slice4 {
-	transform: rotate(54deg);
-	background-color: #f5a623;
-}
-
-.slice5 {
-	transform: rotate(72deg);
-	background-color: #27ae60;
-}
-
-.slice6 {
-	transform: rotate(90deg);
-	background-color: #3498db;
-}
-
-.slice7 {
-	transform: rotate(108deg);
-	background-color: #9b59b6;
-}
-
-.slice8 {
-	transform: rotate(126deg);
-	background-color: #2ecc71;
-}
-
-.slice9 {
-	transform: rotate(144deg);
-	background-color: #e74c3c;
-}
-
-.slice10 {
-	transform: rotate(162deg);
-	background-color: #2980b9;
-}
-
-.slice11 {
-	transform: rotate(180deg);
-background-color: #f1c40f;
-}
-
-.slice12 {
-transform: rotate(198deg);
-background-color: #1abc9c;
-}
-
-.slice13 {
-transform: rotate(216deg);
-background-color: #8e44ad;
-}
-
-.slice14 {
-transform: rotate(234deg);
-background-color: #27ae60;
-}
-
-.slice15 {
-transform: rotate(252deg);
-background-color: #d35400;
-}
-
-.slice16 {
-transform: rotate(270deg);
-background-color: #f39c12;
-}
-
-.slice17 {
-transform: rotate(288deg);
-background-color: #16a085;
-}
-
-.slice18 {
-transform: rotate(306deg);
-background-color: #c0392b;
-}
-
-.slice19 {
-transform: rotate(324deg);
-background-color: #2c3e50;
-}
-
-.slice20 {
-transform: rotate(342deg);
-background-color: #95a5a6;
-}
-
-.face {
-position: absolute;
-top: -60px;
-left: 50%;
-transform: translateX(-50%);
-width: 50px;
-height: 50px;
-background-size: cover;
-background-position: center center;
-border-radius: 50%;
-}
-
-.face1 {
-background-image: url('https://i.imgur.com/g7sgzbP.png');
-transform: rotate(9deg) translateX(130px);
-}
-
-.face2 {
-background-image: url('https://i.imgur.com/SLP4ilb.png');
-transform: rotate(27deg) translateX(130px);
-}
-
-.face3 {
-background-image: url('https://i.imgur.com/oaoutGm.png');
-transform: rotate(45deg) translateX(130px);
-}
-
-.face4 {
-background-image: url('https://i.imgur.com/RsifiDf.png');
-transform: rotate(63deg) translateX(130px);
-}
-
-.face5 {
-background-image: url('https://i.imgur.com/dIVtsuM.png');
-transform: rotate(81deg) translateX(130px);
-}
-
-.face6 {
-background-image: url('https://i.imgur.com/jjmWCpP.png');
-transform: rotate(99deg) translateX(130px);
-}
-
-.face7 {
-background-image: url('https://i.imgur.com/wrGEfVG.png');
-transform: rotate(117deg) translateX(130px);
-}
-
-.face8 {
-background-image: url('https://i.imgur.com/zalgLTz.png');
-transform: rotate(135deg) translateX(130px);
-}
-
-.face9 {
-background-image: url('https://i.imgur.com/7rY77Yq.png');
-transform: rotate(153deg) translateX(130px);
-}
-
-.face10 {
-background-image: url('https://i.imgur.com/QmZ2cyr.png');
-transform: rotate(171deg) translateX(130px);
-}
-
-.face11 {
-background-image: url('https://i.imgur.com/r1iIhMj.png');
-transform: rotate(189deg) translateX(130px);
-}
-
-.face12 {
-background-image: url('https://i.imgur.com/I4OEznC.png');
-transform: rotate(207deg) translateX(130px);
-}
-
-.face13 {
-background-image: url('https://i.imgur.com/Kbel5cu.png');
-transform: rotate(225deg) translateX(130px);
-}
-
-.face14 {
-background-image: url('https://i.imgur.com/elcPsYs.png');
-transform: rotate(243deg) translateX(130px);
-}
-
-.face15 {
-background-image: url('https://i.imgur.com/ZNvX6H1.png');
-transform: rotate(261deg) translateX(130px)
-
-}
-
-.face16 {
-background-image: url('https://i.imgur.com/pfwsSwg.png');
-transform: rotate(279deg) translateX(130px);
-}
-
-.face17 {
-background-image: url('https://i.imgur.com/Mz83SjT.png');
-transform: rotate(297deg) translateX(130px);
-}
-
-.face18 {
-background-image: url('https://i.imgur.com/xTtmO1W.png');
-transform: rotate(315deg) translateX(130px);
-}
-
-.face19 {
-background-image: url('https://i.imgur.com/28ThVVZ.png');
-transform: rotate(333deg) translateX(130px);
-}
-
-.face20 {
-background-image: url('https://i.imgur.com/nKQaA87.png');
-transform: rotate(351deg) translateX(130px);
-}
-
-@keyframes spin {
-to {
-transform: rotate(360deg);
+#text {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--gold_color);
+  font-weight: 500;
 }
