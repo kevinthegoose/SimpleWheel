@@ -28,6 +28,8 @@ const winnerName = document.getElementById("winner-name");
 const popupContainer = document.querySelector(".popup-container");
 const popup = document.querySelector(".popup");
 const popupBtn = document.querySelector(".popup-btn");
+const spinBtn = document.getElementById("spin-btn");
+const resetBtn = document.getElementById("reset-btn");
 
 // Define the properties for the wheel
 const numOfSlices = wheelData.length;
@@ -46,33 +48,89 @@ const rotateWheel = () => {
 
 // Define the function to pick a random winner
 const pickWinner = () => {
-  if (!isSpinning) {
-    isSpinning = true;
-    const numRotations = Math.floor(Math.random() * 4 + 4) * 360;
-   
-// Add click event listener to the reset button
-resetButton.addEventListener("click", resetWheel);
+if (!isSpinning) {
+isSpinning = true;
+const numRotations = Math.floor(Math.random() * 10 + 10) * 360; // Random number of rotations
+const winningSlice = Math.floor(Math.random() * numOfSlices); // Random winning slice
+const winningDeg = numRotations + winningSlice * rotateDeg; // Winning slice position in degrees
+wheel.style.transition = "all 10s ease-out"; // Apply transition
+setTimeout(() => {
+wheel.style.transform = rotate(${winningDeg}deg); // Rotate wheel to winning slice
+isSpinning = false;
+popupContainer.classList.add("show"); // Display popup
+winnerName.textContent = wheelData[winningSlice].name; // Set the name of the winner in the popup
+}, 10000);
+}
+};
+
+// Loop through the wheel data to create the slices
+wheelData.forEach((slice, index) => {
+const sliceElem = document.createElement("div");
+sliceElem.className = "slice";
+sliceElem.style.backgroundImage = url(${slice.image});
+sliceElem.style.transform = rotate(${index * rotateDeg}deg) skewY(-${rotateDeg}deg);
+wheel.appendChild(sliceElem);
 });
 
-// Define the function to reset the wheel
-const resetWheel = () => {
-// Hide the popup
-popupContainer.classList.remove("show");
+// Add click event listener to the spin button
+spinBtn.addEventListener("click", rotateWheel);
 
-// Reset the wheel properties
-currentDeg = 0;
+// Add click event listener to the popup button
+popupBtn.addEventListener("click", () => {
+popupContainer.classList.remove("show"); // Hide popup
+wheel.style.transition = "none"; // Remove transition
+wheel.style.transform = rotate(${currentDeg}deg); // Reset wheel rotation
+});
+
+// Add keydown event listener to the document
+document.addEventListener("keydown", (event) => {
+if (event.code === "Space") {
+rotateWheel(); // Spin wheel when spacebar is pressed
+}
+});
+// Loop through the wheelData array to create the slices of the wheel
+for (let i = 0; i < numOfSlices; i++) {
+const slice = document.createElement("div");
+slice.className = "slice";
+slice.style.transform = rotate(${rotateDeg * i}deg);
+const img = document.createElement("img");
+img.src = wheelData[i].image;
+img.alt = wheelData[i].name;
+slice.appendChild(img);
+wheel.appendChild(slice);
+}
+
+// Add a click event listener to the spin button
+spinBtn.addEventListener("click", () => {
+if (!isSpinning) {
+isSpinning = true;
+const numRotations = Math.floor(Math.random() * 4 + 4) * 360;
+const winnerIndex = Math.floor(Math.random() * numOfSlices);
+rotateDegSlow = rotateDeg / 5;
+setTimeout(() => {
+clearInterval(intervalId);
+winnerName.textContent = wheelData[winnerIndex].name;
+popupContainer.classList.add("show");
 isSpinning = false;
-wheel.style.transition = "none";
-wheel.style.transform = "rotate(0deg)";
+}, numRotations + 2000);
+let rotateDegSlow = rotateDeg / 5;
+let intervalId = setInterval(() => {
+rotateWheel(rotateDegSlow);
+rotateDegSlow += rotateDeg / 5;
+}, 25);
+}
+});
 
-// Enable the spin button
-spinBtn.disabled = false;
+// Add a click event listener to the popup button
+popupBtn.addEventListener("click", () => {
+popupContainer.classList.remove("show");
+});
+
+// Define the function to rotate the wheel
+const rotateWheel = (rotateDeg) => {
+currentDeg += rotateDeg;
+wheel.style.transform = rotate(${currentDeg}deg);
+if (currentDeg >= 360) {
+currentDeg = 0;
+}
 };
-  
-  // Define the variable for the reset button
-const resetButton = document.getElementById("reset-button");
-
-// Add click event listener to the reset button
-resetButton.addEventListener("click", resetWheel);
-</script>
-  
