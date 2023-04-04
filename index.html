@@ -1,124 +1,44 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>SVG Spinner</title>
-	<style type="text/css">
-		* {
-			font-family: Arial, sans-serif;
-		}
-		#wrapper {
-			width: 400px;
-			text-align: center;
-		} 
-		#button-holder {
-			width: 200px;
-			margin: auto;
-		}
-		#spinner-button {
-			width: 200px;
-			height: 75px;
-			font-size: 1.25em;
-			font-weight: bold;
-		}
-	</style>
-	<script type="text/javascript">	
-		var svgns = "http://www.w3.org/2000/svg"; // SVG Namespace (in case we need it)
-		var numSlices = 20;  // Size of the circle slices
-		var slices = Array.from({ length: numSlices }, (_, i) => new Slice(i, wheel, numSlices)); // Array of wheel slice objects
-		var isSpinning = false; // Is the arrow spinning?
-		var rotation = 0; // Arrow rotation
-		var currentSlice = 0; // Current slice the arrow is over
-		var wheel = document.getElementById("wheel"); // DOM Object for the spinner board
-		var arrow = document.getElementById("arrow"); // DOM Object for the spinner arrow
-		var spinButton = document.getElementById("spinner-button"); // DOM Object for the spin wheel <button>
-		
-		// Basic wheel "slice" object for drawing SVG
-		function Slice(num, parent, total) {
-			// Set instance vars
-			this.parent = parent;
-			this.size = 360 / total;
-			this.offset = num * this.size;
-			this.id = "slice_" + num;
-			// Draw the object
-			this.object = this.create();
-			this.parent.appendChild(this.object);
-		}
-
-		Slice.prototype = {
-			create:function() {
-				// Create a group to store the slice in
-				var g = document.createElementNS(svgns, "g");
-				// Create the slice object
-				var slice = document.createElementNS(svgns, "path");
-				slice.setAttributeNS(null, "id", this.id);
-				var x1 = 200 + 180 * Math.cos(Math.PI * (-90 + this.offset) / 180);
-				var y1 = 200 + 180 * Math.sin(Math.PI * (-90 + this.offset) / 180);
-				var x2 = 200 + 180 * Math.cos(Math.PI * (-90 + this.size + this.offset) / 180);
-				var y2 = 200 + 180 * Math.sin(Math.PI * (-90 + this.size + this.offset) / 180);
-				
-
-// Start spinning the arrow
-function startSpinning() {
-// Set isSpinning to true
-isSpinning = true;
-// Disable the spin button
-spinButton.disabled = true;
-// Call the spinWheel function
-spinWheel();
-}
-
-// Spin the arrow
-function spinWheel() {
-// Increment the rotation
-rotation += 10;
-// Rotate the arrow
-arrow.setAttributeNS(null, "transform", "rotate(" + rotation + ", 200, 200)");
-// Calculate which slice the arrow is over
-currentSlice = Math.floor((rotation - 90) / (360 / numSlices));
-// If the arrow has completed a full rotation...
-if (rotation >= 360) {
-// Reset the rotation
-rotation = 0;
-// Set isSpinning to false
-isSpinning = false;
-// Re-enable the spin button
-spinButton.disabled = false;
-// Alert the user which slice they landed on
-alert("You landed on slice " + currentSlice);
-// Exit the function
-return;
-}
-// Call the spinWheel function again in 100 milliseconds
-setTimeout(spinWheel, 100);
-}
-
-// Toggle spinning
-function toggleSpinning() {
-if (!isSpinning) {
-startSpinning();
-}
-}
-
-// Add an event listener for the spin button
-spinButton.addEventListener("click", toggleSpinning);
-</script>
-
+	<title>Spinning Wheel</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div id="wrapper">
-		<svg id="wheel" width="400" height="400">
-			<g>
-				<path fill="#e8e8e8" stroke="#000000" stroke-width="2" d="M200,200 l0,-180 a180,180 0 1,1 0,360 a180,180 0 1,1 0,-360 z" />
-				<line id="arrow" x1="200" y1="20" x2="200" y2="200" stroke="#ff0000" stroke-width="5" marker-end="url(#arrowhead)" />
-				<marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-					<path d="M 0 0 L 10 5 L 0 10 z" />
-				</marker>
-				{slices}
-			</g>
-		</svg>
-		<div id="button-holder">
-			<button id="spinner-button">SPIN THE WHEEL</button>
+	<header>
+		<h1>Spinning Wheel</h1>
+	</header>
+	<main>
+		<div class="wheel-container">
+			<div class="wheel">
+				<div class="slice slice1"></div>
+				<div class="slice slice2"></div>
+				<div class="slice slice3"></div>
+				<div class="slice slice4"></div>
+				<div class="slice slice5"></div>
+				<div class="slice slice6"></div>
+				<div class="slice slice7"></div>
+				<div class="slice slice8"></div>
+				<div class="slice slice9"></div>
+				<div class="slice slice10"></div>
+				<div class="slice slice11"></div>
+				<div class="slice slice12"></div>
+				<div class="slice slice13"></div>
+				<div class="slice slice14"></div>
+				<div class="slice slice15"></div>
+				<div class="slice slice16"></div>
+				<div class="slice slice17"></div>
+				<div class="slice slice18"></div>
+				<div class="slice slice19"></div>
+				<div class="slice slice20"></div>
+			</div>
 		</div>
-	</div>
+		<div class="announcement">
+			<h2 id="winner-name"></h2>
+			<img id="winner-image">
+			<button id="reset-button">Spin Again</button>
+		</div>
+	</main>
+	<script type="text/javascript" src="script.js"></script>
 </body>
-</html> 
+</html>
