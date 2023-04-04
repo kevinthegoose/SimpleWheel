@@ -1,136 +1,100 @@
-// Define the names and images for the wheel slices
-const wheelData = [
-  { name: "Ana Spelunky", image: "https://i.imgur.com/g7sgzbP.png" },
-  { name: "Au", image: "https://i.imgur.com/SLP4ilb.png" },
-  { name: "Classic Guy", image: "https://i.imgur.com/oaoutGm.png" },
-  { name: "Coco von Diamonds", image: "https://i.imgur.com/RsifiDf.png" },
-  { name: "Colin Northward", image: "https://i.imgur.com/dIVtsuM.png" },
-  { name: "Dan Gheesling [MOD]", image: "https://i.imgur.com/jjmWCpP.png" },
-  { name: "Demi von Diamonds", image: "https://i.imgur.com/wrGEfVG.png" },
-  { name: "Dirk Yamoaka", image: "https://i.imgur.com/zalgLTz.png" },
-  { name: "Guy Spelunky", image: "https://i.imgur.com/7rY77Yq.png" },
-  { name: "LISE Project", image: "https://i.imgur.com/QmZ2cyr.png" },
-  { name: "Little Jay", image: "https://i.imgur.com/r1iIhMj.png" },
-  { name: "Liz Mutton", image: "https://i.imgur.com/I4OEznC.png" },
-  { name: "Manfred Tunnel", image: "https://i.imgur.com/Kbel5cu.png" },
-  { name: "Margaret Tunnel", image: "https://i.imgur.com/elcPsYs.png" },
-  { name: "Nekka The Eagle", image: "https://i.imgur.com/ZNvX6H1.png" },
-  { name: "Pilot", image: "https://i.imgur.com/cJIKVML.png" },
-  { name: "Princess Aaryn", image: "https://i.imgur.com/yGeLNuQ.png" },
-  { name: "Roffy D Sloth", image: "https://i.imgur.com/0AEbICi.png" },
-  { name: "Tina Flan", image: "https://i.imgur.com/vuMTujq.png" },
-  { name: "Valerie Crump", image: "https://i.imgur.com/6NXDhU0.png" }
+/* --------------- Spin Wheel  --------------------- */
+const spinWheel = document.getElementById("spinWheel");
+const spinBtn = document.getElementById("spin_btn");
+const text = document.getElementById("text");
+/* --------------- Minimum And Maximum Angle For A value  --------------------- */
+const spinValues = [
+  { minDegree: 61, maxDegree: 90, value: 100 },
+  { minDegree: 31, maxDegree: 60, value: 200 },
+  { minDegree: 0, maxDegree: 30, value: 300 },
+  { minDegree: 331, maxDegree: 360, value: 400 },
+  { minDegree: 301, maxDegree: 330, value: 500 },
+  { minDegree: 271, maxDegree: 300, value: 600 },
+  { minDegree: 241, maxDegree: 270, value: 700 },
+  { minDegree: 211, maxDegree: 240, value: 800 },
+  { minDegree: 181, maxDegree: 210, value: 900 },
+  { minDegree: 151, maxDegree: 180, value: 1000 },
+  { minDegree: 121, maxDegree: 150, value: 1100 },
+  { minDegree: 91, maxDegree: 120, value: 1200 },
 ];
-
-// Define the variables for the wheel and the popup
-const wheel = document.getElementById("wheel");
-const winnerName = document.getElementById("winner-name");
-const popupContainer = document.querySelector(".popup-container");
-const popup = document.querySelector(".popup");
-const popupBtn = document.querySelector(".popup-btn");
-const spinBtn = document.getElementById("spin-btn");
-const resetBtn = document.getElementById("reset-btn");
-
-// Define the properties for the wheel
-const numOfSlices = wheelData.length;
-const rotateDeg = 360 / numOfSlices;
-let currentDeg = 0;
-let isSpinning = false;
-
-// Define the function to rotate the wheel
-const rotateWheel = () => {
-  currentDeg += rotateDeg;
-  wheel.style.transform = `rotate(${currentDeg}deg)`;
-  if (currentDeg >= 360) {
-    currentDeg = 0;
+/* --------------- Size Of Each Piece  --------------------- */
+const size = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+/* --------------- Background Colors  --------------------- */
+var spinColors = [
+  "#E74C3C",
+  "#7D3C98",
+  "#2E86C1",
+  "#138D75",
+  "#F1C40F",
+  "#D35400",
+  "#138D75",
+  "#F1C40F",
+  "#b163da",
+  "#E74C3C",
+  "#7D3C98",
+  "#138D75",
+];
+/* --------------- Chart --------------------- */
+/* --------------- Guide : https://chartjs-plugin-datalabels.netlify.app/guide/getting-started.html --------------------- */
+let spinChart = new Chart(spinWheel, {
+  plugins: [ChartDataLabels],
+  type: "pie",
+  data: {
+    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    datasets: [
+      {
+        backgroundColor: spinColors,
+        data: size,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    animation: { duration: 0 },
+    plugins: {
+      tooltip: false,
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        rotation: 90,
+        color: "#ffffff",
+        formatter: (_, context) => context.chart.data.labels[context.dataIndex],
+        font: { size: 24 },
+      },
+    },
+  },
+});
+/* --------------- Display Value Based On The Angle --------------------- */
+const generateValue = (angleValue) => {
+  for (let i of spinValues) {
+    if (angleValue >= i.minDegree && angleValue <= i.maxDegree) {
+      text.innerHTML = `<p>Congratulations, You Have Won $${i.value} ! </p>`;
+      spinBtn.disabled = false;
+      break;
+    }
   }
 };
-
-// Define the function to pick a random winner
-const pickWinner = () => {
-if (!isSpinning) {
-isSpinning = true;
-const numRotations = Math.floor(Math.random() * 10 + 10) * 360; // Random number of rotations
-const winningSlice = Math.floor(Math.random() * numOfSlices); // Random winning slice
-const winningDeg = numRotations + winningSlice * rotateDeg; // Winning slice position in degrees
-wheel.style.transition = "all 10s ease-out"; // Apply transition
-setTimeout(() => {
-wheel.style.transform = rotate(${winningDeg}deg); // Rotate wheel to winning slice
-isSpinning = false;
-popupContainer.classList.add("show"); // Display popup
-winnerName.textContent = wheelData[winningSlice].name; // Set the name of the winner in the popup
-}, 10000);
-}
-};
-
-// Loop through the wheel data to create the slices
-wheelData.forEach((slice, index) => {
-const sliceElem = document.createElement("div");
-sliceElem.className = "slice";
-sliceElem.style.backgroundImage = url(${slice.image});
-sliceElem.style.transform = rotate(${index * rotateDeg}deg) skewY(-${rotateDeg}deg);
-wheel.appendChild(sliceElem);
-});
-
-// Add click event listener to the spin button
-spinBtn.addEventListener("click", rotateWheel);
-
-// Add click event listener to the popup button
-popupBtn.addEventListener("click", () => {
-popupContainer.classList.remove("show"); // Hide popup
-wheel.style.transition = "none"; // Remove transition
-wheel.style.transform = rotate(${currentDeg}deg); // Reset wheel rotation
-});
-
-// Add keydown event listener to the document
-document.addEventListener("keydown", (event) => {
-if (event.code === "Space") {
-rotateWheel(); // Spin wheel when spacebar is pressed
-}
-});
-// Loop through the wheelData array to create the slices of the wheel
-for (let i = 0; i < numOfSlices; i++) {
-const slice = document.createElement("div");
-slice.className = "slice";
-slice.style.transform = rotate(${rotateDeg * i}deg);
-const img = document.createElement("img");
-img.src = wheelData[i].image;
-img.alt = wheelData[i].name;
-slice.appendChild(img);
-wheel.appendChild(slice);
-}
-
-// Add a click event listener to the spin button
+/* --------------- Spinning Code --------------------- */
+let count = 0;
+let resultValue = 101;
 spinBtn.addEventListener("click", () => {
-if (!isSpinning) {
-isSpinning = true;
-const numRotations = Math.floor(Math.random() * 4 + 4) * 360;
-const winnerIndex = Math.floor(Math.random() * numOfSlices);
-rotateDegSlow = rotateDeg / 5;
-setTimeout(() => {
-clearInterval(intervalId);
-winnerName.textContent = wheelData[winnerIndex].name;
-popupContainer.classList.add("show");
-isSpinning = false;
-}, numRotations + 2000);
-let rotateDegSlow = rotateDeg / 5;
-let intervalId = setInterval(() => {
-rotateWheel(rotateDegSlow);
-rotateDegSlow += rotateDeg / 5;
-}, 25);
-}
+  spinBtn.disabled = true;
+  text.innerHTML = `<p>Best Of Luck!</p>`;
+  let randomDegree = Math.floor(Math.random() * (355 - 0 + 1) + 0);
+  let rotationInterval = window.setInterval(() => {
+    spinChart.options.rotation = spinChart.options.rotation + resultValue;
+    spinChart.update();
+    if (spinChart.options.rotation >= 360) {
+      count += 1;
+      resultValue -= 5;
+      spinChart.options.rotation = 0;
+    } else if (count > 15 && spinChart.options.rotation == randomDegree) {
+      generateValue(randomDegree);
+      clearInterval(rotationInterval);
+      count = 0;
+      resultValue = 101;
+    }
+  }, 10);
 });
-
-// Add a click event listener to the popup button
-popupBtn.addEventListener("click", () => {
-popupContainer.classList.remove("show");
-});
-
-// Define the function to rotate the wheel
-const rotateWheel = (rotateDeg) => {
-currentDeg += rotateDeg;
-wheel.style.transform = rotate(${currentDeg}deg);
-if (currentDeg >= 360) {
-currentDeg = 0;
-}
-};
+/* --------------- End Spin Wheel  --------------------- */
